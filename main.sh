@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
 name=amc86
-exec > index.md
+exec > README.md
 (
 	label() {
 		printf '%%%s' "$1"
