@@ -83,7 +83,7 @@ exec > index.md
 	cat <<- EOF
 $(def int i 0)
 $(def label start)
-	$(def str i Variable); $(print var i) $(comment Identical)
+	$(def str str Variable); $(print var str) $(comment Identical)
 	$(print Literal) $(comment Identical '(Alias)')
 	$(incr i)
 	$(def bool loop "$(le var i 10)"); $(if_else "$(var loop)" jump "$(label start)")
