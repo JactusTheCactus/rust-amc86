@@ -20,17 +20,18 @@ exec > index.md
 		type=$1
 		id=$2
 		shift 2
-		if [[ $type == label ]]
-			then id=$(label "$id")
+		if [[ $type == label ]]; then
+			id=$(label "$id")
 		else
 			id=$(var "$id")
 		fi
-		if [[ $type == str ]]
-			then value=$(str "$@")
+		if [[ $type == str ]]; then
+			value=$(str "$@")
 		fi
-		if [[ $type != label ]]
-			then value="$id ${value:-$@}"
-			else value=$id
+		if [[ $type != label ]]; then
+			value="$id ${value:-$@}"
+		else
+			value=$id
 		fi
 		printf 'def %s %s' "$type" "$value"
 	}
