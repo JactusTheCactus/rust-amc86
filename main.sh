@@ -132,11 +132,11 @@ declare -A syntax=(
 		'The rest of the line is not seen by the compiler'
 	)"
 	['label']='All labels are prefixed by a '"'%'"
-	['le A:T B:T']="$(
+	['le A:int B:int']="$(
 		printf '%s\n' \
 			'Checks if A is less than, or equal to, B' \
 			'Returns a boolean' \
-			'A or B can either be a variable or a single literal' \
+			'A or B can either be variables or single literals' \
 			'(no expressions)'
 	)"
 )
