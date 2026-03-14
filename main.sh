@@ -111,7 +111,7 @@ declare -A syntax=(
 		printf '%s\n' \
 			'Declare a variable (VAR) and assign it to the value of EXPR.' \
 			'Valid types include; '"$(
-				printf '\n- \`%s\`' "${types[@]}" | sort
+				printf '\n- `%s`' "${types[@]}" | sort
 			)"
 	)"
 	['print VAR:str']="$(printf '%s\n' \
