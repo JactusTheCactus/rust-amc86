@@ -80,7 +80,7 @@ exec > index.md
 		shift
 		printf 'exit %s' "$code"
 	}
-	cat <<- EOF
+	cat << EOF
 $(def int i 0)
 $(def label start)
 	$(def str str Variable); $(print var str) $(comment Identical)
