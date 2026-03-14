@@ -1,34 +1,94 @@
 #!/usr/bin/env bash
 set -uo pipefail
-line() {
-	for _ in {1..50}
-		do printf '='
-	done
-	printf '\n'
-}
-label() {
-	printf '%%%s' "$1"
-}
-var() {
-	printf '$%s' "$1"
-}
-com() {
-	printf '# %s' "$1"
-}
-str() {
-	printf '"%s\\n"' "$1"
-}
 name=amc86
 exec > index.md
-cat << EOF > src/main.amc86
-let int $(var i) 0
-let label $(label start)
-	let str $(var i) $(str Variable); print $(var i) $(com Identical)
-	print $(str Literal) $(com Identical)
-	incr $(var i)
-	let bool $(var loop) le $(var i) 10; if $(var loop) jump $(label start)
-exit 0
+(
+	label() {
+		printf '%%%s' "$1"
+	}
+	var() {
+		printf '$%s' "$1"
+	}
+	comment() {
+		printf '#'
+		printf ' %s' "$@"
+	}
+	str() {
+		printf '"%s\\n"' "$1"
+	}
+	def() {
+		type=$1
+		id=$2
+		shift 2
+		if [[ $type == label ]]
+			then id=$(label "$id")
+		else
+			id=$(var "$id")
+		fi
+		if [[ $type == str ]]
+			then value=$(str "$@")
+		fi
+		if [[ $type != label ]]
+			then value="$id ${value:-$@}"
+			else value=$id
+		fi
+		printf 'def %s %s' "$type" "$value"
+	}
+	print() {
+		if [[ $1 == var ]]; then
+			kind=v
+			shift
+		else
+			kind=l
+		fi
+		case "$kind" in
+			v) value=$(var "$1");;
+			l) value=$(str "$1");;
+		esac
+		printf 'print %s' "$value"
+	}
+	incr() {
+		printf 'incr %s' "$(var "$1")"
+	}
+	le() {
+		args=()
+		for i in {1..2}; do
+			if [[ $1 == var ]]; then
+				shift
+				args+=("$(var "$1")")
+			else
+				args+=("$1")
+			fi
+			shift
+		done
+		printf 'le %s %s' "${args[@]}"
+	}
+	if_else() {
+		cond=$1
+		shift
+		action=$*
+		printf 'if %s %s' "$cond" "$action"
+	}
+	e() {
+		if [[ $1 == var ]]; then
+			code=$(var "$1")
+			shift
+		else
+			code=$1
+		fi
+		shift
+		printf 'exit %s' "$code"
+	}
+	cat <<- EOF
+$(def int i 0)
+$(def label start)
+	$(def str i Variable); $(print var i) $(comment Identical)
+	$(print Literal) $(comment Identical '(Alias)')
+	$(incr i)
+	$(def bool loop "$(le var i 10)"); $(if_else "$(var loop)" jump "$(label start)")
+$(e 0)
 EOF
+) > src/main.amc86
 cat << EOF
 What's a good way to implement a simple, line-based, language
 (Split lines on \`;\` before processing)
@@ -46,7 +106,7 @@ types=(
 	label
 )
 declare -A syntax=(
-	['let VAR EXPR...']="$(
+	['def VAR EXPR...']="$(
 		printf '%s\n' \
 			'Declare a variable (VAR) and assign it to the value of EXPR.' \
 			'Valid types include; '"$(
