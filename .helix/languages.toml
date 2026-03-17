@@ -2,7 +2,7 @@
 	name = "x86-64 Assembly Macro Compiler (AMC86)"
 	scope = "main.amc86"
 	file-types = ["amc", "amc86"]
-	comment-tokens = ["#"]
+	comment-tokens = ["//"]
 	[language.auto-pairs]
 		'"' = '"'
 	[language.indent]

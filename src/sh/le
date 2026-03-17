@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -uo pipefail
+source src/sh/conf
+args=()
+for _ in {1..2}; do
+	case "$1" in
+		var)
+			shift
+			args+=("$(run var "$1")")
+		;;
+		*) args+=("$1");;
+	esac
+	shift
+done
+printf 'le %s %s' "${args[@]}"

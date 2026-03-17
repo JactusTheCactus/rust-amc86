@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -uo pipefail
+source src/sh/conf
+if [[ $1 == var ]]; then
+	code=$(run var "$1")
+	shift
+else
+	code=$1
+fi
+shift
+printf 'exit %s' "$code"

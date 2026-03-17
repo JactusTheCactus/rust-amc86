@@ -1,0 +1,3 @@
+hard_tabs = true
+imports_granularity = "One"
+blank_lines_upper_bound = 0

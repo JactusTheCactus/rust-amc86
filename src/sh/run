@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -uo pipefail
+cmd=$1
+shift
+"./src/sh/$cmd" "$@"

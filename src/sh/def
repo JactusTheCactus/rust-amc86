@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -uo pipefail
+source src/sh/conf
+type=$1
+shift
+value=()
+case "$type" in
+	label) value_type=$type;;
+	*) value_type=var;;
+esac
+value+=("$(run "$value_type" "$1")")
+shift
+case "$type" in
+	str) value+=("$(run str "$@")");;
+	label) ;;
+	*) value+=("$@");;
+esac
+printf 'def %s %s' "$type" "${value[*]}"

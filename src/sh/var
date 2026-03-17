@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -uo pipefail
+source src/sh/conf
+printf '%s%s' "$VAR" "$1"
