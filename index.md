@@ -5,11 +5,11 @@ that compiles with `nasm`?
 ## Example
 ```amc86
 def int $i 0
-def label %start
-def str $i "Variable\n"; print $i # Identical
-print "Literal\n" # Identical (Alias)
+def label #start
+def str $i "Variable\n"; print $i -- Identical
+print "Literal\n" -- Identical (Alias)
 incr $i
-def bool $loop le $i 10; if $loop jump %start
+def bool $loop le $i 10; if $loop jump #start
 exit 0
 ```
 ## Syntax

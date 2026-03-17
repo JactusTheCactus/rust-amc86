@@ -4,13 +4,13 @@ name=amc86
 exec > README.md
 (
 	label() {
-		printf '%%%s' "$1"
+		printf '#%s' "$1"
 	}
 	var() {
 		printf '$%s' "$1"
 	}
 	comment() {
-		printf '#'
+		printf '%s' --
 		printf ' %s' "$@"
 	}
 	str() {
