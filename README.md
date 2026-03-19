@@ -6,7 +6,8 @@ def label #start
 	def str $str "Variable\n"; print $str // Identical
 	print "Literal\n" // Identical (Alias)
 	incr $i
-	def bool $loop le $i 10; if $loop jump #start
+	def bool $loop le $i 10
+	if $loop jump #start
 exit 0
 ```
 # Syntax

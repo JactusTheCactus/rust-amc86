@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -uo pipefail
 source .env
-dirs=(
-	bin
-	dist
-	logs
-)
+dirs=(bin dist logs)
 rm -rf "${dirs[@]}" compiler src/main.$NAME README.md
 mkdir -p "${dirs[@]}"
 declare -A scripts=(
@@ -23,7 +19,7 @@ cmd=(
 for i in "${cmd[@]}"; do
 	read -r -a args <<< "$i"
 	cargo=(cargo "${args[@]}")
-	if ! "${cargo[@]}" &> "logs/${args[-1]}"; then
+	if ! "${cargo[@]}" &> "logs/${args[-1]}.log"; then
 		"${cargo[@]}"
 		echo "${cargo[*]} failed"
 		exit 1
@@ -31,11 +27,11 @@ for i in "${cmd[@]}"; do
 done
 find logs -empty -delete
 ln -s target/debug/$NAME compiler
+args=(
+	-i src/main.amc86
+	-o dist/main.asm
+)
 if (( $# > 0)); then
 	args=("$@")
-else
-	args=(
-		-i src/main.amc86
-	)
 fi
 ./compiler "${args[@]}"

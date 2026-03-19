@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 shopt -s expand_aliases
-alias run=./src/sh/run
 source .env
+alias run=./src/.sh/run

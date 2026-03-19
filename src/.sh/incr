@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -uo pipefail
-source src/sh/conf
+source src/.sh/conf
 printf 'incr %s' "$(run var "$1")"

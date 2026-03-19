@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
-source src/sh/conf
+source src/.sh/conf
 if [[ $1 == var ]]; then
 	code=$(run var "$1")
 	shift

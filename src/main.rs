@@ -1,5 +1,5 @@
 use {
-	amc86::{Args, IO, Lines, Mode, utils::read_lines},
+	amc86::{args::Args, io::IO, line::Line, lines::Lines, mode::Mode, utils::read_lines},
 	clap::Parser,
 	core::panic,
 };
@@ -17,7 +17,7 @@ fn main() {
 			Mode::Std(IO::Out)
 		},
 	);
-	println!("<{:?}>", mode.0);
+	// println!("<{:?}>", mode.0);
 	let mut lines = vec![];
 	match &mode.0 {
 		Mode::Std(io) => match &io {
@@ -34,8 +34,13 @@ fn main() {
 			}
 		}
 	}
-	for line in Lines::new(lines).0 {
-		println!("{line:?}");
+	for Line { line, tokens } in Lines::new(lines).0 {
+		print!("{line}:");
+		for i in tokens {
+			print!(" {i:?}");
+		}
+		println!();
+		// println!("{line}: {tokens:?}");
 	}
-	println!("<{:?}>", mode.1);
+	// println!("<{:?}>", mode.1);
 }
