@@ -15,4 +15,7 @@ case "$type" in
 	label) ;;
 	*) value+=("$@");;
 esac
-printf 'def %s %s' "$type" "${value[*]}"
+case "$type" in
+	label) printf 'label %s' "${value[*]}";;
+	*) printf 'def %s %s' "${type:0:1}" "${value[*]}";;
+esac

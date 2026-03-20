@@ -1,8 +1,8 @@
-def int $i 0
-def label #start
-	def str $str "Variable\n"; print $str // Identical
+def i $i 0
+label #start
+	def s $str "Variable\n"; print $str // Identical
 	print "Literal\n" // Identical (Alias)
 	incr $i
-	def bool $loop le $i 10
+	def b $loop le $i 10
 	if $loop jump #start
 exit 0

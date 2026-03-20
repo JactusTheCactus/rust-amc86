@@ -1,12 +1,11 @@
-What's a good way to implement a simple, line-based (Split lines on `;` before processing), language (let's call it `AMC86` [file-types: `amc86` / `amc`]), in Rust, that compiles with `nasm` (don't just write it for me)?
 # Example
 ```amc86
-def int $i 0
-def label #start
-	def str $str "Variable\n"; print $str // Identical
+def i $i 0
+label #start
+	def s $str "Variable\n"; print $str // Identical
 	print "Literal\n" // Identical (Alias)
 	incr $i
-	def bool $loop le $i 10
+	def b $loop le $i 10
 	if $loop jump #start
 exit 0
 ```
@@ -15,25 +14,21 @@ exit 0
 All variables are prefixed by a `$`
 ## // comment
 A `//` denotes the start of a comment. The rest of the line is not seen by the compiler
-## def TYPE ($|#)VAR [EXPR...]
-Declare a variable (`VAR`) and assign it to the value of `EXPR` (if `TYPE` is not `label`). Valid types include; 
-- `bool` (identical to 1 or 0)
-- `int` (i64)
-- `label` (`EXPR` is omitted)
-- `str`
-## exit [$]CODE:int
-Terminates the program with `CODE` as the exit code
-## if [$]COND:bool EXPR...
-Evaluates `EXPR` if `COND` is a true boolean
-## incr $INT:int
-increase an integer variable (`INT`) by 1
-## jump #LABEL:label
-Execute code starting from the line at which `LABEL` was defined
+## def TYPE $V [EXPR...]
+Declare a variable (`V`) and assign it to the value of `EXPR`. Valid types include; `b[ool]` (identical to 0 or 1), `i[nt]` (64-bit signed integer), `s[tr]`
+## exit [$]C:i
+Terminates the program with `C` as the exit code
+## if [$]C:b E...
+Evaluates `E` if `C` is a true boolean
+## incr $I:i
+increment `I` by 1
+## jump #L:label
+Execute code starting from the line at which `L` was defined
 ## #label
 All labels are prefixed by a `#`
-## le [$]A:int [$]B:int
+## label #L:label
+Create a label (`L`). Calling `jump #L` will execute code from the line at which `L` was defined.
+## le [$]A:i [$]B:i
 Checks if `A` is less than, or equal to, `B`. Returns a boolean. `A` or `B` can either be variables or single literals (no expressions)
-## print $VAR:str
-Write the value of `VAR` to standard output. `VAR` must be a defined variable
-## println LIT:str(literal)
-First, assigns `LIT` to a variable (`VAR`). Next, writes the value of `VAR` to standard output
+## print [$]V:s
+Write the value of `V` to standard output. If `V` is not a defined variable, it will be defined first.
